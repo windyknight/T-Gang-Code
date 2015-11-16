@@ -1,7 +1,7 @@
 # T-Gang-Code
 
 Members:
-Elijah Devesa
+#Elijah Devesa
 Alex Fantilagan
 Jay Lopez
 Craig Sorono
