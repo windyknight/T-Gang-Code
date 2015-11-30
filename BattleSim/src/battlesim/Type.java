@@ -10,7 +10,18 @@ package battlesim;
  * @author Jay Lopez
  */
 public enum Type {
-    SMART,
-    TOUGH,
-    DEXTEROUS;
+    SMART ("Smart"),
+    TOUGH ("Tough"),
+    DEXTEROUS ("Dexterous");
+    
+    private final String name;
+    
+    Type(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

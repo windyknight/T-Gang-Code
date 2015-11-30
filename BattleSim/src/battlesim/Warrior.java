@@ -112,6 +112,10 @@ public class Warrior {
         level += 1;
     }
     
+    public int getLevel() {
+        return level;
+    }
+    
     public void fullHeal() {
         currentHp = maxHp;
     }
@@ -130,12 +134,44 @@ public class Warrior {
         }
     }
     
+    public Item getItem (int i) {
+        return items.get(i);
+    }
+    
     public void takeDamage(double damage) {
+        damage *= 1 - damageMitigation;
         currentHp -= damage;
         if (currentHp <= 0) {
             alive = false;
         }
     }
     
-    //more stuff
+    public void attack (Warrior target) {
+        double range = maxDamage - minDamage;
+        range *= Math.random() * range + minDamage;
+        if (type == Type.TOUGH) {
+            range += tough;
+        }
+        if (type == Type.DEXTEROUS) {
+            range += dex;
+        }
+        if (type == Type.SMART) {
+            range += smart;
+        }
+        target.takeDamage(range);
+        System.out.println(type + name + " attacks for " + range + " damage!");
+    }
+    
+    @Override
+    public String toString() {
+        return type + name + ": " + currentHp + "/" + maxHp;
+    }
+    
+    public double getCurrentHp() {
+        return currentHp;
+    }
+    
+    public double getMaxHp() {
+        return maxHp;
+    }
 }
