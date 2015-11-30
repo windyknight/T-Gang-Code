@@ -67,4 +67,9 @@ public class Item {
     public double getIas() {
         return ias;
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
 }

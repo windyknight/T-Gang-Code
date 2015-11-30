@@ -12,38 +12,38 @@ import java.util.*;
  * @author Jay Lopez
  */
 public class Warrior {
-    private String name;
-    private Type type;
-    private int level;
-    //private base stats//
-    private final double baseHp = 150;
-    private final double baseEnergy = 0;
-    private int baseTough; //hp and regen
-    private int baseDex; //armor and ias
-    private int baseSmart; //energy
-    private int incTough;
-    private int incDex;
-    private int incSmart;
-    private final double baseRegen = 0.25;
-    private double baseAttackTime;
-    private double baseArmor;
-    //end private base stats//
-    private double minDamage;
-    private double maxDamage;
-    private double currentHp;
-    private double maxHp;
-    private double energy;
-    private double trueArmor;
-    private double incAttackSpd;
-    private ArrayList<Item> items;
+    protected String name;
+    protected Type type;
+    protected int level;
+    //protected base stats//
+    protected final double baseHp = 150;
+    protected final double baseEnergy = 0;
+    protected int baseTough; //hp and regen
+    protected int baseDex; //armor and ias
+    protected int baseSmart; //energy
+    protected int incTough;
+    protected int incDex;
+    protected int incSmart;
+    protected final double baseRegen = 0.25;
+    protected double baseAttackTime;
+    protected double baseArmor;
+    //end protected base stats//
+    protected double minDamage;
+    protected double maxDamage;
+    protected double currentHp;
+    protected double maxHp;
+    protected double energy;
+    protected double trueArmor;
+    protected double incAttackSpd;
+    protected ArrayList<Item> items;
     //final stats to be used in combat//
-    private int tough; //hp and regen
-    private int dex; //armor and ias
-    private int smart; //energy
-    private double regen;
-    private double damageMitigation;
-    private double attackCooldown;
-    private boolean alive;
+    protected int tough; //hp and regen
+    protected int dex; //armor and ias
+    protected int smart; //energy
+    protected double regen;
+    protected double damageMitigation;
+    protected double attackCooldown;
+    protected boolean alive;
     
     Warrior(String name, Type type, int baseTough, int incTough, int baseDex, int incDex, int baseSmart, int incSmart, double baseArmor, double minDamage, double maxDamage, double baseAttackTime) {
         this.name = name;
@@ -60,6 +60,7 @@ public class Warrior {
         this.baseAttackTime = baseAttackTime;
         this.items = new ArrayList<>();
         this.alive = true;
+        computeNewStats();
     }
     
     
@@ -126,11 +127,13 @@ public class Warrior {
     
     public void takeItem (Item item) {
         items.add(item);
+        computeNewStats();
     }
     
     public void dropItem (Item item) {
         if (items.indexOf(item) > -1) {
             items.remove(item);
+            computeNewStats();
         }
     }
     
@@ -173,5 +176,17 @@ public class Warrior {
     
     public double getMaxHp() {
         return maxHp;
+    }
+    
+    public double getIas() {
+        return incAttackSpd;
+    }
+    
+    public void increaseIas(double value) {
+        incAttackSpd += value;
+    }
+    
+    public double getEnergy() {
+        return energy;
     }
 }
