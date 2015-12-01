@@ -37,6 +37,7 @@ public class Skeptic extends Warrior {
         }
         target.takeDamage(range);
         mysticCount++;
+        System.out.print(type + name + " attacks for " + range + " damage!");
     }
     
     public void attack(Brute target) {
@@ -52,10 +53,13 @@ public class Skeptic extends Warrior {
             range += smart;
         }
         if (bruteCount >= bruteSpecial) {
-            bruteCount = 0;
+            bruteCount = -1;
             target.takeDamage(range, 2.00);
         }
-        target.takeDamage(range);
+        else {
+            target.takeDamage(range);
+        }
         bruteCount++;
+        System.out.print(type + name + " attacks for " + range + " damage!\n");
     }
 }

@@ -104,9 +104,24 @@ public class Warrior {
         for (Item a : items) {
             incAttackSpd += a.getIas();
         }
-        
+        computeMitigation();
+        computeCooldown();
+    }
+    
+    public void computeMitigation() {
         damageMitigation = (0.06 * trueArmor) / (1 + (0.06 * trueArmor));
+    }
+    
+    public void computeCooldown() {
         attackCooldown = ((int)(baseAttackTime / (1 + (incAttackSpd / 100)) * 100)) / 100.00;
+    }
+    
+    public void setCooldown(double cool) {
+        this.attackCooldown = cool;
+    }
+    
+    public double getCooldown(){
+        return attackCooldown;
     }
     
     public void levelUp() {
@@ -119,6 +134,7 @@ public class Warrior {
     
     public void fullHeal() {
         currentHp = maxHp;
+        alive = true;
     }
     
     public void partialHeal(double heal) {
@@ -163,6 +179,7 @@ public class Warrior {
         }
         target.takeDamage(range);
         System.out.println(type + name + " attacks for " + range + " damage!");
+        
     }
     
     @Override
@@ -184,9 +201,49 @@ public class Warrior {
     
     public void increaseIas(double value) {
         incAttackSpd += value;
+        computeCooldown();
     }
     
     public double getEnergy() {
         return energy;
     }
+    
+    public boolean isAlive() {
+        return alive;
+    }
+    
+    public void regenerate() {
+        partialHeal(regen);
+    }
+    
+    public void battle(Warrior enemy) {
+        double time = 0;
+        fullHeal();
+        enemy.fullHeal();
+        System.out.println(this + " versus " + enemy);
+        while (this.alive && enemy.isAlive()) {
+            if((int)(time * 100) % (int)(getCooldown() * 100) == 0) {
+                System.out.print("[" + time + "] ");
+                attack(enemy);
+            }
+            if((int)(time * 100) % (int)(enemy.getCooldown() * 100) == 0) {
+                System.out.print("[" + time + "] ");
+                enemy.attack(this);
+            }
+            if((int)(time * 100) % 100 == 0) {
+                this.regenerate();
+                enemy.regenerate();
+                System.out.println("[" + time + "] " + "Regeneration.");
+            }
+            time += 0.01;
+        }
+        if (this.isAlive()) {
+            System.out.println("Combatant 1 wins!");
+        }
+        else if (enemy.isAlive()) {
+            System.out.println("Combatant 2 wins!");
+        }
+    }
+    
+    
 }

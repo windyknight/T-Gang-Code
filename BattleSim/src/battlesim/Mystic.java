@@ -32,11 +32,12 @@ public class Mystic extends Warrior {
             range += smart;
         }
         if (cursedCount >= cursedSpecial) {
-            cursedCount = 0;
+            cursedCount = -1;
             range += 0.05 * energy;
         }
         target.takeDamage(range);
         cursedCount++;
+        System.out.print(type + name + " attacks for " + range + " damage!\n");
     }
     
     public void attack(Brute target) {
@@ -52,10 +53,20 @@ public class Mystic extends Warrior {
             range += smart;
         }
         if (bruteCount >= bruteSpecial) {
-            bruteCount = 0;
+            bruteCount = -1;
             partialHeal(range);
         }
         target.takeDamage(range);
         bruteCount++;
+        System.out.print(type + name + " attacks for " + range + " damage!\n");
+    }
+    
+    public void takeDamage(double range, double armorBoost) {
+        double first = trueArmor;
+        trueArmor *= armorBoost;
+        computeMitigation();
+        takeDamage(range);
+        trueArmor = first;
+        computeMitigation();
     }
 }

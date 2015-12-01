@@ -30,11 +30,12 @@ public class Cursed extends Warrior {
             range += smart;
         }
         if (skepticCount >= skepticSpecial) {
-            skepticCount = 0;
+            skepticCount = -1;
         }
         else {
             target.takeDamage(range);
         }
         skepticCount++;
+        System.out.print(type + name + " attacks for " + range + " damage!\n");
     }
 }
