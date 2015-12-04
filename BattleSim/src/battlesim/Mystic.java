@@ -21,7 +21,7 @@ public class Mystic extends Warrior {
     
     public void attack(Cursed target) {
         double range = maxDamage - minDamage;
-        range *= Math.random() * range + minDamage;
+        range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
             range += tough;
         }
@@ -37,12 +37,12 @@ public class Mystic extends Warrior {
         }
         target.takeDamage(range);
         cursedCount++;
-        System.out.print(type + name + " attacks for " + range + " damage!\n");
+        System.out.print(type + name + " attacks for " + range + " damage! (override)\n");
     }
     
     public void attack(Brute target) {
         double range = maxDamage - minDamage;
-        range *= Math.random() * range + minDamage;
+        range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
             range += tough;
         }

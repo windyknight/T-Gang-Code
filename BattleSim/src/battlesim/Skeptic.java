@@ -21,7 +21,7 @@ public class Skeptic extends Warrior {
     
     public void attack(Mystic target) {
         double range = maxDamage - minDamage;
-        range *= Math.random() * range + minDamage;
+        range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
             range += tough;
         }
@@ -42,7 +42,7 @@ public class Skeptic extends Warrior {
     
     public void attack(Brute target) {
         double range = maxDamage - minDamage;
-        range *= Math.random() * range + minDamage;
+        range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
             range += tough;
         }

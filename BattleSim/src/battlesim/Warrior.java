@@ -166,8 +166,13 @@ public class Warrior {
     }
     
     public void attack (Warrior target) {
+        if (this instanceof Mystic) {
+            if (target instanceof Cursed)
+                ((Mystic)this).attack((Cursed)target);
+        }
+        /* default code
         double range = maxDamage - minDamage;
-        range *= Math.random() * range + minDamage;
+        range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
             range += tough;
         }
@@ -179,6 +184,7 @@ public class Warrior {
         }
         target.takeDamage(range);
         System.out.println(type + name + " attacks for " + range + " damage!");
+        */
         
     }
     

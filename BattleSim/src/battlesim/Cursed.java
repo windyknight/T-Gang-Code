@@ -19,7 +19,7 @@ public class Cursed extends Warrior {
     
     public void attack(Skeptic target) {
         double range = maxDamage - minDamage;
-        range *= Math.random() * range + minDamage;
+        range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
             range += tough;
         }

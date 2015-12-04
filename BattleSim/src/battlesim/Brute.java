@@ -28,7 +28,7 @@ public class Brute extends Warrior {
     
     public void attack(Cursed target) {
         double range = maxDamage - minDamage;
-        range *= Math.random() * range + minDamage;
+        range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
             range += tough;
         }
