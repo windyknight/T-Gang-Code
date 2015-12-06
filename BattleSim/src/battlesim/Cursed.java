@@ -36,6 +36,6 @@ public class Cursed extends Warrior {
             target.takeDamage(range);
         }
         skepticCount++;
-        System.out.print(type + name + " attacks for " + range + " damage!\n");
+        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
     }
 }

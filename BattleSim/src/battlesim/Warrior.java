@@ -169,8 +169,39 @@ public class Warrior {
         if (this instanceof Mystic) {
             if (target instanceof Cursed)
                 ((Mystic)this).attack((Cursed)target);
+            else if (target instanceof Brute)
+                ((Mystic)this).attack((Brute)target);
+            return;
         }
-        /* default code
+        else if (this instanceof Cursed) {
+            if (target instanceof Skeptic)
+                ((Cursed)this).attack((Skeptic)target);
+            return;
+        }
+        else if (this instanceof Brute) {
+            if (target instanceof Cursed)
+                ((Brute)this).attack((Cursed)target);
+            return;
+        }
+        else if (this instanceof Skeptic) {
+            if (target instanceof Mystic)
+                ((Skeptic)this).attack((Mystic)target);
+            else if (target instanceof Brute)
+                ((Skeptic)this).attack((Brute)target);
+            return;
+        }
+        else if (this instanceof Shredder) {
+            if (target instanceof Skeptic) //annoying code
+                ((Shredder)this).attack((Skeptic)target);
+            else if (target instanceof Cursed)
+                ((Shredder)this).attack((Cursed)target);
+            else if (target instanceof Mystic)
+                ((Shredder)this).attack((Mystic)target);
+            else if (target instanceof Brute)
+                ((Shredder)this).attack((Brute)target);
+            return;
+        }
+        //default code
         double range = maxDamage - minDamage;
         range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
@@ -183,14 +214,13 @@ public class Warrior {
             range += smart;
         }
         target.takeDamage(range);
-        System.out.println(type + name + " attacks for " + range + " damage!");
-        */
+        System.out.println(type + " " + name + " attacks for " + range + " damage!");  
         
     }
     
     @Override
     public String toString() {
-        return type + name + ": " + currentHp + "/" + maxHp;
+        return type + " " + name + ": " + currentHp + "/" + maxHp;
     }
     
     public double getCurrentHp() {

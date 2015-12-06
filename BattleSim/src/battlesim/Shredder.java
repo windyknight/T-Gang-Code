@@ -39,7 +39,7 @@ public class Shredder extends Warrior {
             range += smart;
         }
         target.takeDamage(range);
-        System.out.print(type + name + " attacks for " + range + " damage!");
+        System.out.print(type + " " + name + " attacks for " + range + " damage!");
     }
     
     public void attack(Mystic target) {
@@ -62,7 +62,7 @@ public class Shredder extends Warrior {
             target.takeDamage(range);
         }
         mysticCount++;
-        System.out.print(type + name + " attacks for " + range + " damage!\n");
+        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
     }
     
     public void attack(Skeptic target) {
@@ -82,7 +82,7 @@ public class Shredder extends Warrior {
         }
         target.takeDamage(range);
         skepticCount++;
-        System.out.print(type + name + " attacks for " + range + " damage!\n");
+        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
         
         //eff this
     }

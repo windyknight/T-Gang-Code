@@ -37,7 +37,7 @@ public class Mystic extends Warrior {
         }
         target.takeDamage(range);
         cursedCount++;
-        System.out.print(type + name + " attacks for " + range + " damage! (override)\n");
+        System.out.print(type + " " + name + " attacks for " + range + " damage! (override)\n");
     }
     
     public void attack(Brute target) {
@@ -58,7 +58,7 @@ public class Mystic extends Warrior {
         }
         target.takeDamage(range);
         bruteCount++;
-        System.out.print(type + name + " attacks for " + range + " damage!\n");
+        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
     }
     
     public void takeDamage(double range, double armorBoost) {
