@@ -5,6 +5,8 @@
  */
 package battlesim;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Jay Lopez
@@ -14,6 +16,8 @@ public class Mystic extends Warrior {
     private final int bruteSpecial = 5;
     private int cursedCount = 0;
     private int bruteCount = 0;
+    DecimalFormat a = new DecimalFormat("0");
+    DecimalFormat b = new DecimalFormat("0.00");
     
     Mystic(String name, Type type, int baseTough, int incTough, int baseDex, int incDex, int baseSmart, int incSmart, double baseArmor, double minDamage, double maxDamage, double baseAttackTime) {
         super(name, type, baseTough, incTough, baseDex, incDex, baseSmart, incSmart, baseArmor, minDamage, maxDamage, baseAttackTime);
@@ -37,7 +41,7 @@ public class Mystic extends Warrior {
         }
         target.takeDamage(range);
         cursedCount++;
-        System.out.print(type + " " + name + " attacks for " + range + " damage! (override)\n");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
     }
     
     public void attack(Brute target) {
@@ -58,7 +62,7 @@ public class Mystic extends Warrior {
         }
         target.takeDamage(range);
         bruteCount++;
-        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
     }
     
     public void takeDamage(double range, double armorBoost) {
@@ -68,5 +72,16 @@ public class Mystic extends Warrior {
         takeDamage(range);
         trueArmor = first;
         computeMitigation();
+    }
+    
+    public void reset() {
+        fullHeal();
+        timeBack();
+        bruteCount = 0;
+        cursedCount = 0;
+    }
+    
+    public String toString() {
+        return type + " " + "Mystical" + " " + name + ": " + maxHp + "HP, " + tough + "TOU, " + dex + "DEX, " + smart + "SMR, " + b.format(trueArmor) + "ARM, " + baseAttackTime + "SPD";
     }
 }

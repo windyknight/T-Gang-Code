@@ -70,6 +70,10 @@ public class Item {
     
     @Override
     public String toString() {
+        return name + ": " + tough + "TOU, " + dex + "DEX, " + smart + "SMR, " + armor + "ARM, " + hp + "HP, " + regen + "REG, " + energy + "ENE, " + ias + "SPD";
+    }
+    
+    public String namer() {
         return name;
     }
 }

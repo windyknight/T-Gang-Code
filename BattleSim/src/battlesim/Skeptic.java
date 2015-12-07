@@ -5,6 +5,8 @@
  */
 package battlesim;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Jay Lopez
@@ -14,6 +16,8 @@ public class Skeptic extends Warrior {
     private int mysticCount = 0;
     private final int bruteSpecial = 6;
     private int bruteCount = 0;
+    DecimalFormat a = new DecimalFormat("0");
+    DecimalFormat b = new DecimalFormat("0.00");
     
     Skeptic(String name, Type type, int baseTough, int incTough, int baseDex, int incDex, int baseSmart, int incSmart, double baseArmor, double minDamage, double maxDamage, double baseAttackTime) {
         super(name, type, baseTough, incTough, baseDex, incDex, baseSmart, incSmart, baseArmor, minDamage, maxDamage, baseAttackTime);
@@ -37,7 +41,7 @@ public class Skeptic extends Warrior {
         }
         target.takeDamage(range);
         mysticCount++;
-        System.out.print(type + " " + name + " attacks for " + range + " damage!");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
     }
     
     public void attack(Brute target) {
@@ -60,6 +64,17 @@ public class Skeptic extends Warrior {
             target.takeDamage(range);
         }
         bruteCount++;
-        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
+    }
+    
+    public void reset() {
+        fullHeal();
+        timeBack();
+        mysticCount = 0;
+        bruteCount = 0;
+    }
+    
+    public String toString() {
+        return type + " " + "Skeptical" + " " + name + ": " + maxHp + "HP, " + tough + "TOU, " + dex + "DEX, " + smart + "SMR, " + b.format(trueArmor) + "ARM, " + baseAttackTime + "SPD";
     }
 }

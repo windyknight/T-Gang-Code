@@ -5,6 +5,8 @@
  */
 package battlesim;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Jay Lopez
@@ -12,6 +14,8 @@ package battlesim;
 public class Brute extends Warrior {
     private final int cursedSpecial = 4;
     private int cursedCount = 0;
+    DecimalFormat a = new DecimalFormat("0");
+    DecimalFormat b = new DecimalFormat("0.00");
     
     Brute(String name, Type type, int baseTough, int incTough, int baseDex, int incDex, int baseSmart, int incSmart, double baseArmor, double minDamage, double maxDamage, double baseAttackTime) {
         super(name, type, baseTough, incTough, baseDex, incDex, baseSmart, incSmart, baseArmor, minDamage, maxDamage, baseAttackTime);
@@ -44,6 +48,16 @@ public class Brute extends Warrior {
         }
         target.takeDamage(range);
         cursedCount++;
-        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
+    }
+    
+    public void reset() {
+        fullHeal();
+        timeBack();
+        cursedCount = 0;
+    }
+    
+    public String toString() {
+        return type + " " + "Brutish" + " " + name + ": " + maxHp + "HP, " + tough + "TOU, " + dex + "DEX, " + smart + "SMR, " + b.format(trueArmor) + "ARM, " + baseAttackTime + "SPD";
     }
 }

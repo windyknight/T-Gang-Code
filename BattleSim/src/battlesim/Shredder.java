@@ -5,6 +5,8 @@
  */
 package battlesim;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Jay Lopez
@@ -17,6 +19,9 @@ public class Shredder extends Warrior {
     private int skepticCount = 0;
     private final int bruteSpecial = 4;
     private int bruteCount = 0;
+    DecimalFormat a = new DecimalFormat("0");
+    DecimalFormat b = new DecimalFormat("0.00");
+    
     
     Shredder(String name, Type type, int baseTough, int incTough, int baseDex, int incDex, int baseSmart, int incSmart, double baseArmor, double minDamage, double maxDamage, double baseAttackTime) {
         super(name, type, baseTough, incTough, baseDex, incDex, baseSmart, incSmart, baseArmor, minDamage, maxDamage, baseAttackTime);
@@ -39,7 +44,7 @@ public class Shredder extends Warrior {
             range += smart;
         }
         target.takeDamage(range);
-        System.out.print(type + " " + name + " attacks for " + range + " damage!");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
     }
     
     public void attack(Mystic target) {
@@ -62,7 +67,27 @@ public class Shredder extends Warrior {
             target.takeDamage(range);
         }
         mysticCount++;
-        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
+    }
+    
+    public void attack(Brute target) {
+        double range = maxDamage - minDamage;
+        range += Math.random() * range + minDamage;
+        if (type == Type.TOUGH) {
+            range += tough;
+        }
+        if (type == Type.DEXTEROUS) {
+            range += dex;
+        }
+        if (type == Type.SMART) {
+            range += smart;
+        }
+        if (bruteCount >= bruteSpecial) {
+            bruteCount = -1;
+            range += randomize(0.03 * target.getMaxHp());
+        }
+        target.takeDamage(range);
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
     }
     
     public void attack(Skeptic target) {
@@ -79,11 +104,30 @@ public class Shredder extends Warrior {
         }
         if (skepticCount >= skepticSpecial) {
             skepticCount = -1;
+            setFollowUp(getTime() + 0.1);
         }
         target.takeDamage(range);
         skepticCount++;
-        System.out.print(type + " " + name + " attacks for " + range + " damage!\n");
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!"); 
         
         //eff this
+    }
+    //more bull
+    
+    public void reset() {
+        fullHeal();
+        timeBack();
+        cursedAffliction = false;
+        mysticCount = 0;
+        bruteCount = 0;
+        skepticCount = 0;
+    }
+    
+    private double randomize(double high) {
+        return Math.random() * (high);
+    }
+    
+    public String toString() {
+        return type + " " + "Shredalicious" + " " + name + ": " + maxHp + "HP, " + tough + "TOU, " + dex + "DEX, " + smart + "SMR, " + b.format(trueArmor) + "ARM, " + baseAttackTime + "SPD";
     }
 }

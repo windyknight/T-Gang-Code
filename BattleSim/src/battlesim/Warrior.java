@@ -6,7 +6,7 @@
 package battlesim;
 
 import java.util.*;
-
+import java.text.DecimalFormat;
 /**
  *
  * @author Jay Lopez
@@ -44,6 +44,10 @@ public class Warrior {
     protected double damageMitigation;
     protected double attackCooldown;
     protected boolean alive;
+    protected double time;
+    protected double followUp;
+    DecimalFormat a = new DecimalFormat("0");
+    DecimalFormat b = new DecimalFormat("0.00");
     
     Warrior(String name, Type type, int baseTough, int incTough, int baseDex, int incDex, int baseSmart, int incSmart, double baseArmor, double minDamage, double maxDamage, double baseAttackTime) {
         this.name = name;
@@ -60,6 +64,8 @@ public class Warrior {
         this.baseAttackTime = baseAttackTime;
         this.items = new ArrayList<>();
         this.alive = true;
+        this.time = 0;
+        this.level = 1;
         computeNewStats();
     }
     
@@ -153,8 +159,11 @@ public class Warrior {
         }
     }
     
-    public Item getItem (int i) {
-        return items.get(i);
+    public void getItem() {
+        for (int i = 0; i < items.size(); i++) {
+            System.out.print(items.get(i).namer() + " ");
+            System.out.println();
+        }
     }
     
     public void takeDamage(double damage) {
@@ -168,40 +177,40 @@ public class Warrior {
     public void attack (Warrior target) {
         if (this instanceof Mystic) {
             if (target instanceof Cursed)
-                ((Mystic)this).attack((Cursed)target);
+            {((Mystic)this).attack((Cursed)target); return;}
             else if (target instanceof Brute)
-                ((Mystic)this).attack((Brute)target);
-            return;
+            {((Mystic)this).attack((Brute)target); return;}
+            
         }
         else if (this instanceof Cursed) {
             if (target instanceof Skeptic)
-                ((Cursed)this).attack((Skeptic)target);
-            return;
+            {((Cursed)this).attack((Skeptic)target); return;}
+            
         }
         else if (this instanceof Brute) {
             if (target instanceof Cursed)
-                ((Brute)this).attack((Cursed)target);
-            return;
+            {((Brute)this).attack((Cursed)target); return;}
+            
         }
         else if (this instanceof Skeptic) {
             if (target instanceof Mystic)
-                ((Skeptic)this).attack((Mystic)target);
+            {((Skeptic)this).attack((Mystic)target); return;}
             else if (target instanceof Brute)
-                ((Skeptic)this).attack((Brute)target);
-            return;
+            {((Skeptic)this).attack((Brute)target); return;}
+            
         }
         else if (this instanceof Shredder) {
-            if (target instanceof Skeptic) //annoying code
-                ((Shredder)this).attack((Skeptic)target);
+            if (target instanceof Skeptic) //annoying code here
+            {((Shredder)this).attack((Skeptic)target); return;}
             else if (target instanceof Cursed)
-                ((Shredder)this).attack((Cursed)target);
+            {((Shredder)this).attack((Cursed)target); return;}
             else if (target instanceof Mystic)
-                ((Shredder)this).attack((Mystic)target);
+            {((Shredder)this).attack((Mystic)target); return;}
             else if (target instanceof Brute)
-                ((Shredder)this).attack((Brute)target);
-            return;
+            {((Shredder)this).attack((Brute)target); return;}
+            
         }
-        //default code
+        //defalt code
         double range = maxDamage - minDamage;
         range += Math.random() * range + minDamage;
         if (type == Type.TOUGH) {
@@ -214,13 +223,13 @@ public class Warrior {
             range += smart;
         }
         target.takeDamage(range);
-        System.out.println(type + " " + name + " attacks for " + range + " damage!");  
+        System.out.println(type + " " + name + " attacks for " + a.format(range) + " damage!");  
         
     }
     
     @Override
     public String toString() {
-        return type + " " + name + ": " + currentHp + "/" + maxHp;
+        return type + " " + name + ": " + maxHp + "HP, " + tough + "TOU, " + dex + "DEX, " + smart + "SMR, " + b.format(trueArmor) + "ARM, " + baseAttackTime + "SPD";
     }
     
     public double getCurrentHp() {
@@ -253,23 +262,32 @@ public class Warrior {
     }
     
     public void battle(Warrior enemy) {
-        double time = 0;
-        fullHeal();
-        enemy.fullHeal();
+        this.reset();
+        enemy.reset();
         System.out.println(this + " versus " + enemy);
-        while (this.alive && enemy.isAlive()) {
+        while (true) {
             if((int)(time * 100) % (int)(getCooldown() * 100) == 0) {
-                System.out.print("[" + time + "] ");
+                System.out.print("[" + b.format(time) + "] ");
                 attack(enemy);
+                System.out.println(this.status());
+                System.out.println(enemy.status());
+                if (!enemy.isAlive())
+                    break;
             }
             if((int)(time * 100) % (int)(enemy.getCooldown() * 100) == 0) {
-                System.out.print("[" + time + "] ");
+                System.out.print("[" + b.format(time) + "] ");
                 enemy.attack(this);
+                System.out.println(this.status());
+                System.out.println(enemy.status());
+                if (!this.isAlive())
+                    break;
             }
             if((int)(time * 100) % 100 == 0) {
                 this.regenerate();
                 enemy.regenerate();
-                System.out.println("[" + time + "] " + "Regeneration.");
+                System.out.println("[" + b.format(time) + "] " + "Regeneration.");
+                System.out.println(this.status());
+                System.out.println(enemy.status());
             }
             time += 0.01;
         }
@@ -280,6 +298,36 @@ public class Warrior {
             System.out.println("Combatant 2 wins!");
         }
     }
+
+    public void reset() {
+        fullHeal();
+        timeBack();
+    }
     
+    public void timeBack() {
+        time = 0;
+        followUp = 0;
+    }
     
+    public double getTime() {
+        return time;
+    }
+    
+    public void setFollowUp(double followUp) {
+        this.followUp = followUp;
+    }
+    
+    public void repeatAttack(Warrior target) {
+        if ((int)(this.time * 100) == (int)(this.followUp * 100)) {
+            this.attack(target);
+        }
+    }
+    
+    public String status() {
+        return name + ": " + a.format(currentHp) + " / " + a.format(maxHp);
+    }
+    
+    public void clearOut() {
+        items.clear();
+    }
 }
